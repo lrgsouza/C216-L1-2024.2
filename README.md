@@ -1,8 +1,13 @@
 # C216-L1-2024.2
 
+## Horario de Atendimento
+- Segunda Feira das 17:30 às 19:30 - Via Teams.
+
 ## CRONOGRAMA
 
 ## [Prática-1](./aulas/pratica-1/) - Introdução ao Python
+- [Python Básico](./aulas/pratica-1/introducao_python.md)
+- [Exercício proposto](./aulas/pratica-1/exercicio_pratica-1.md)
 
 ## [Prática-2](./aulas/pratica-2/) - Introdução ao Docker e build python
 

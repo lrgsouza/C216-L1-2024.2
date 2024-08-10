@@ -1,0 +1,73 @@
+Menu de Opções:
+1. Cadastrar Livro
+2. Listar Livros
+3. Consultar Livro
+4. Vender Livro
+5. Sair
+Escolha uma opção: 1
+Digite o nome do livro: livro1
+Digite o autor do livro: autor
+Digite a quantidade em estoque: 4
+Livro 'livro1' cadastrado com sucesso!
+
+Menu de Opções:
+1. Cadastrar Livro
+2. Listar Livros
+3. Consultar Livro
+4. Vender Livro
+5. Sair
+Escolha uma opção: 1
+Digite o nome do livro: livro2
+Digite o autor do livro: autor2
+Digite a quantidade em estoque: 2
+Livro 'livro2' cadastrado com sucesso!
+
+Menu de Opções:
+1. Cadastrar Livro
+2. Listar Livros
+3. Consultar Livro
+4. Vender Livro
+5. Sair
+Escolha uma opção: 2
+Nome: livro1, Autor: autor, Quantidade: 4
+Nome: livro2, Autor: autor2, Quantidade: 2
+
+Menu de Opções:
+1. Cadastrar Livro
+2. Listar Livros
+3. Consultar Livro
+4. Vender Livro
+5. Sair
+Escolha uma opção: 3
+Digite o nome do livro a consultar: livro2
+Nome: livro2, Autor: autor2, Quantidade: 2
+
+Menu de Opções:
+1. Cadastrar Livro
+2. Listar Livros
+3. Consultar Livro
+4. Vender Livro
+5. Sair
+Escolha uma opção: 4
+Digite o nome do livro a vender: livro2
+Digite a quantidade a vender: 1
+Venda registrada! Quantidade restante de 'livro2': 1
+
+Menu de Opções:
+1. Cadastrar Livro
+2. Listar Livros
+3. Consultar Livro
+4. Vender Livro
+5. Sair
+Escolha uma opção: 2
+Nome: livro1, Autor: autor, Quantidade: 4
+Nome: livro2, Autor: autor2, Quantidade: 1
+
+Menu de Opções:
+1. Cadastrar Livro
+2. Listar Livros
+3. Consultar Livro
+4. Vender Livro
+5. Sair
+Escolha uma opção: 5
+Saindo...
