@@ -10,6 +10,8 @@
 - [Exercício proposto](./aulas/pratica-1/exercicio_pratica-1.md)
 
 ## [Prática-2](./aulas/pratica-2/) - Introdução ao Docker e build python
+- [Docker e build python](./aulas/pratica-2/docker_build_python.md)
+- [Exercício proposto](./aulas/pratica-2/exercicio_pratica-2.md)
 
 ## [Prática-3](./aulas/pratica-3/) - Middleware com FastAPI
 

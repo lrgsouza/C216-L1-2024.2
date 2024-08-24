@@ -1,0 +1,31 @@
+docker run -it sistema_estoque
+
+Menu de Opções:
+1. Cadastrar Livro
+2. Listar Livros
+3. Consultar Livro
+4. Vender Livro
+5. Sair
+Escolha uma opção: 1
+Digite o nome do livro: lucas
+Digite o autor do livro: lucas
+Digite a quantidade em estoque: 5
+Livro 'lucas' cadastrado com sucesso!
+
+Menu de Opções:
+1. Cadastrar Livro
+2. Listar Livros
+3. Consultar Livro
+4. Vender Livro
+5. Sair
+Escolha uma opção: 2
+Nome: lucas, Autor: lucas, Quantidade: 5
+
+Menu de Opções:
+1. Cadastrar Livro
+2. Listar Livros
+3. Consultar Livro
+4. Vender Livro
+5. Sair
+Escolha uma opção: 5
+Saindo...
