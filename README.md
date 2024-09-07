@@ -14,6 +14,7 @@
 - [Exercício proposto](./aulas/pratica-2/exercicio_pratica-2.md)
 
 ## [Prática-3](./aulas/pratica-3/) - Middleware com FastAPI
+- [Middleware com FastAPI](./aulas/pratica-3/middleware_fastapi.md)
 
 ## [Prática-4a](./aulas/pratica-4a/) - Preparando o Middleware para CRUD
 
