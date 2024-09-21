@@ -1,0 +1,281 @@
+{
+	"id": "f932534f-e499-4a15-9fab-216a23bf71ca",
+	"name": "C216-L1-PRATICA-4a-Lucas_GES134",
+	"timestamp": "2024-09-21T16:02:19.411Z",
+	"collection_id": "21142925-0a5e5da3-cdbf-4e5a-b6e0-90019ad86ac0",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 14,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2024-09-21T16:02:18.160Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "e116b133-c2ae-47e2-b6dc-e6c276c15110",
+			"name": "GET - Listar todos os livros",
+			"url": "http://127.0.0.1:8000/api/v1/livros/",
+			"time": 107,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response should be a list": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response should be a list": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				107
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response should be a list": true
+				}
+			]
+		},
+		{
+			"id": "80b0a1ee-a112-49b3-b14b-af180bf55446",
+			"name": "GET - Buscar Livro por ID",
+			"url": "http://127.0.0.1:8000/api/v1/livros/1",
+			"time": 8,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response should contain book details": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response should contain book details": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				8
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response should contain book details": true
+				}
+			]
+		},
+		{
+			"id": "d1bfe5da-4044-48d3-9b73-7883d5dbf258",
+			"name": "POST - Adicionar um Livro",
+			"url": "http://127.0.0.1:8000/api/v1/livros/",
+			"time": 12,
+			"responseCode": {
+				"code": 201,
+				"name": "Created"
+			},
+			"tests": {
+				"Status code is 201": true,
+				"Response should contain confirmation message": true
+			},
+			"testPassFailCounts": {
+				"Status code is 201": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response should contain confirmation message": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				12
+			],
+			"allTests": [
+				{
+					"Status code is 201": true,
+					"Response should contain confirmation message": true
+				}
+			]
+		},
+		{
+			"id": "1ca9b084-fbbc-482f-9a81-92b8dc1c85ba",
+			"name": "PUT - Vender um Livro",
+			"url": "http://127.0.0.1:8000/api/v1/livros/1/vender/",
+			"time": 11,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response should confirm sale": true,
+				"Quantidade do livro foi atualizada": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response should confirm sale": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Quantidade do livro foi atualizada": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				11
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response should confirm sale": true,
+					"Quantidade do livro foi atualizada": true
+				}
+			]
+		},
+		{
+			"id": "9d1166f9-232b-4930-8adc-fa05adf106c0",
+			"name": "PATCH - Atualizar Atributos de um Livro",
+			"url": "http://127.0.0.1:8000/api/v1/livros/3",
+			"time": 14,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				14
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			]
+		},
+		{
+			"id": "3f6ef785-8469-4faa-bd7c-8de1729b5ca1",
+			"name": "DELETE - Remover um Livro",
+			"url": "http://127.0.0.1:8000/api/v1/livros/1",
+			"time": 8,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response should confirm deletion": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response should confirm deletion": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				8
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response should confirm deletion": true
+				}
+			]
+		},
+		{
+			"id": "b2ebbee0-8a9e-48c0-b23e-5c40b7357c9a",
+			"name": "DELETE - Remover Todos os Livros (RESETAR REPOSITORIO)",
+			"url": "http://127.0.0.1:8000/api/v1/livros/",
+			"time": 7,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Status code is 200": true,
+				"Response should confirm deletion": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response should confirm deletion": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				7
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Response should confirm deletion": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 167,
+	"collection": {
+		"requests": [
+			{
+				"id": "e116b133-c2ae-47e2-b6dc-e6c276c15110",
+				"method": "GET"
+			},
+			{
+				"id": "80b0a1ee-a112-49b3-b14b-af180bf55446",
+				"method": "GET"
+			},
+			{
+				"id": "d1bfe5da-4044-48d3-9b73-7883d5dbf258",
+				"method": "POST"
+			},
+			{
+				"id": "1ca9b084-fbbc-482f-9a81-92b8dc1c85ba",
+				"method": "PUT"
+			},
+			{
+				"id": "9d1166f9-232b-4930-8adc-fa05adf106c0",
+				"method": "PATCH"
+			},
+			{
+				"id": "3f6ef785-8469-4faa-bd7c-8de1729b5ca1",
+				"method": "DELETE"
+			},
+			{
+				"id": "b2ebbee0-8a9e-48c0-b23e-5c40b7357c9a",
+				"method": "DELETE"
+			}
+		]
+	}
+}

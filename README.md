@@ -15,8 +15,11 @@
 
 ## [Prática-3](./aulas/pratica-3/) - Middleware com FastAPI
 - [Middleware com FastAPI](./aulas/pratica-3/middleware_fastapi.md)
+- [Testes com Postman](./aulas/pratica-3/postman/postman.md)
 
 ## [Prática-4a](./aulas/pratica-4a/) - Preparando o Middleware para CRUD
+- [Preparando o Middleware para CRUD](./aulas/pratica-4a/crud-middleware-1.md)
+- [Testes com Postman](./aulas/pratica-4a/postman/postman.md)
 
 ## [Prática-4b](./aulas/pratica-4b/) - Acessando Postgresql via Middleware
 

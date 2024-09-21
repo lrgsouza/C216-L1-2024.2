@@ -1,43 +1,141 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException, Request
 from pydantic import BaseModel
+from typing import List, Optional
+import time
 
-# Definindo a classe para o corpo da requisição
-class User(BaseModel):
-    name: str
 
+# Inicializar o repositório de livros (armazenado na memória)
+livros = [
+    {"id": 1, "titulo": "Livro A", "autor": "Autor A", "quantidade": 10, "preco": 50.0},
+    {"id": 2, "titulo": "Livro B", "autor": "Autor B", "quantidade": 5, "preco": 40.0},
+]
+
+# Inicializar a aplicação FastAPI
 app = FastAPI()
 
-# Método GET - Rota raiz
-@app.get("/")
-async def hello_world():
-    return {"message": "Hello, FastAPI!"}
 
-# Método GET - Retorna uma saudação usando um query parameter
-@app.get("/api/v1/hello")
-async def hello_name_via_query(name: str):
-    return {"message": f"Hello {name}"}
+# Modelo para adicionar novos livros
+class Livro(BaseModel):
+    id: Optional[int] = None
+    titulo: str
+    autor: str
+    quantidade: int
+    preco: float
 
-# Método GET - Retorna uma saudação usando um path parameter
-@app.get("/api/v1/hello/{name}")
-async def hello_name_via_path(name: str):
-    return {"message": f"Hello {name}"}
+# Modelo para venda de livros
+class VendaLivro(BaseModel):
+    quantidade: int
 
-# Método POST - Retorna uma saudação utilizando o nome do usuário no corpo da requisição
-@app.post("/api/v1/hello")
-async def hello_name(user: User):
-    return {"message": f"Hello {user.name}"}
 
-# Método PUT - Atualiza um recurso com o nome do usuário
-@app.put("/api/v1/update")
-async def put_update(user: User):
-    return {"message": f"Recurso atualizado com o nome: {user.name}"}
+# Modelo para atualizar atributos de um livro (exceto o ID)
+class AtualizarLivro(BaseModel):
+    titulo: Optional[str] = None
+    autor: Optional[str] = None
+    quantidade: Optional[int] = None
+    preco: Optional[float] = None
 
-# Método DELETE - Deleta um recurso pelo nome do usuário passado via query parameter
-@app.delete("/api/v1/delete")
-async def delete_name(name: str):
-    return {"message": f"Recurso deletado com o nome: {name}"}
+# Função para gerar o próximo ID dinamicamente
+def gerar_proximo_id():
+    if livros:
+        return max(livro['id'] for livro in livros) + 1
+    else:
+        return 1
 
-# Método PATCH - Aplica uma modificação parcial ao recurso com o nome do usuário no corpo da requisição
-@app.patch("/api/v1/patch")
-async def patch_name(user: User):
-    return {"message": f"Modificação parcial aplicada ao recurso com o nome: {user.name}"}
+# Função auxiliar para buscar livro por ID
+def buscar_livro_por_id(livro_id: int):
+    for livro in livros:
+        if livro["id"] == livro_id:
+            return livro
+    return None
+
+# Middleware para logging
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    start_time = time.time()
+    response = await call_next(request)
+    process_time = time.time() - start_time
+    print(f"Path: {request.url.path}, Method: {request.method}, Process Time: {process_time:.4f}s")
+    return response
+
+# 1. Adicionar um novo livro
+@app.post("/api/v1/livros/", status_code=201)
+def adicionar_livro(livro: Livro):
+    # Verificar se o livro já existe
+    for l in livros:
+        if l["autor"].lower() == livro.autor.lower() and l["titulo"].lower() == livro.titulo.lower():
+            raise HTTPException(status_code=400, detail="Livro já existe.")
+    
+    # Gerar ID dinamicamente
+    novo_livro = livro.dict()
+    novo_livro['id'] = gerar_proximo_id()
+
+    # Adicionar o novo livro ao repositório
+    livros.append(novo_livro)
+    return {"message": "Livro adicionado com sucesso!", "livro": novo_livro}
+
+# 2. Listar todos os livros
+@app.get("/api/v1/livros/", response_model=List[Livro])
+def listar_livros():
+    return livros
+
+# 3. Buscar livro por ID
+@app.get("/api/v1/livros/{livro_id}")
+def listar_livro_por_id(livro_id: int):
+    livro = buscar_livro_por_id(livro_id)
+    if livro is None:
+        raise HTTPException(status_code=404, detail="Livro não encontrado.")
+    return livro
+
+# 4. Vender um livro (reduzir quantidade no estoque)
+@app.put("/api/v1/livros/{livro_id}/vender/")
+def vender_livro(livro_id: int, venda: VendaLivro):
+    livro = buscar_livro_por_id(livro_id)
+    
+    if livro is None:
+        raise HTTPException(status_code=404, detail="Livro não encontrado.")
+    
+    if livro["quantidade"] < venda.quantidade:
+        raise HTTPException(status_code=400, detail="Quantidade insuficiente no estoque.")
+    
+    livro["quantidade"] -= venda.quantidade
+    return {"message": "Venda realizada com sucesso!", "livro": livro}
+
+
+# 5. Atualizar atributos de um livro pelo ID (exceto o ID)
+@app.patch("/api/v1/livros/{livro_id}")
+def atualizar_livro(livro_id: int, livro_atualizacao: AtualizarLivro):
+    livro = buscar_livro_por_id(livro_id)
+    if livro is None:
+        raise HTTPException(status_code=404, detail="Livro não encontrado.")
+    
+    # Atualizar apenas os campos fornecidos no body
+    if livro_atualizacao.titulo is not None:
+        livro["titulo"] = livro_atualizacao.titulo
+    if livro_atualizacao.autor is not None:
+        livro["autor"] = livro_atualizacao.autor
+    if livro_atualizacao.quantidade is not None:
+        livro["quantidade"] = livro_atualizacao.quantidade
+    if livro_atualizacao.preco is not None:
+        livro["preco"] = livro_atualizacao.preco
+
+    return {"message": "Livro atualizado com sucesso!", "livro": livro}
+
+
+# 6. Remover um livro pelo ID
+@app.delete("/api/v1/livros/{livro_id}")
+def remover_livro(livro_id: int):
+    for i, livro in enumerate(livros):
+        if livro["id"] == livro_id:
+            del livros[i]
+            return {"message": "Livro removido com sucesso!"}
+        
+
+# 7. Resetar repositorio de livros
+@app.delete("/api/v1/livros/")
+def resetar_livros():
+    global livros
+    livros = [
+    {"id": 1, "titulo": "Livro A", "autor": "Autor A", "quantidade": 10, "preco": 50.0},
+    {"id": 2, "titulo": "Livro B", "autor": "Autor B", "quantidade": 5, "preco": 40.0},
+    ]
+    return {"message": "Repositorio limpo com sucesso!", "livros": livros}
