@@ -9,7 +9,7 @@
 ### 1. **GET - Listar todos os livros**
 - **Nome:** `GET - Listar todos os livros`
 - **Método:** `GET`
-- **URL:** `http://127.0.0.1:8000/api/v1/livros`
+- **URL:** `http://127.0.0.1:8000/api/v1/livros/`
 - **Descrição:** Testa o endpoint para listar todos os livros cadastrados.
 - **Testes:**
     ```javascript
@@ -39,7 +39,7 @@
 ### 3. **POST - Adicionar um Livro**
 - **Nome:** `POST - Adicionar um Livro`
 - **Método:** `POST`
-- **URL:** `http://127.0.0.1:8000/api/v1/livros`
+- **URL:** `http://127.0.0.1:8000/api/v1/livros/`
 - **Headers:** 
     - `Content-Type: application/json`
 - **Body (JSON):**
@@ -65,7 +65,7 @@
 ### 4. **PUT - Vender um Livro**
 - **Nome:** `PUT - Vender um Livro`
 - **Método:** `PUT`
-- **URL:** `http://127.0.0.1:8000/api/v1/livros/1/vender`
+- **URL:** `http://127.0.0.1:8000/api/v1/livros/1/vender/`
 - **Descrição:** Deduz uma unidade da quantidade de um livro ao realizar uma venda.
 - **Headers:** 
     - `Content-Type: application/json`
