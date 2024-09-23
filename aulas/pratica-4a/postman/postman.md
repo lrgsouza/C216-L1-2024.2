@@ -148,7 +148,7 @@
 ### 7. **DELETE - Remover Todos os Livros**
 - **Nome:** `DELETE - Remover Todos os Livros (RESETAR REPOSITORIO)`
 - **Método:** `DELETE`
-- **URL:** `http://127.0.0.1:8000/api/v1/livros`
+- **URL:** `http://127.0.0.1:8000/api/v1/livros/`
 - **Descrição:** Remove todos os livros do repositório.
 - **Testes:**
     ```javascript
