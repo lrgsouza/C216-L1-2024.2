@@ -1,3 +1,72 @@
+
+[Voltar ao início](../../README.md)
+---
+
+### Prática 4b - Acessando Postgresql via Middleware
+
+Nesta prática, vamos evoluir o sistema de estoque de livros desenvolvido na aula anterior para utilizar o PostgreSQL. Utilizaremos a biblioteca asyncpg pela sua facilidade de implementação e entendimento.
+
+---
+
+### Pré-requisitos
+
+- Docker para executar a API: [Download Docker Desktop](https://www.docker.com/products/docker-desktop/)
+- Postman para testes: [Download Postman](https://www.postman.com/downloads/)
+
+### Documentação do FastAPI
+
+[Documentação](https://fastapi.tiangolo.com/tutorial/first-steps/)
+
+---
+
+### Endpoints da API:
+
+- `POST /api/v1/livros/`: Adiciona um novo livro ao estoque.
+- `GET /api/v1/livros/`: Lista todos os livros disponíveis.
+- `GET /api/v1/livros/{livro_id}`: Busca um livro pelo ID.
+- `GET /api/v1/vendas/`: Lista todas as vendas.
+- `PUT /api/v1/livros/{livro_id}/vender/`: Vende uma quantidade de um livro, diminuindo o estoque.
+- `PATCH /api/v1/livros/{livro_id}`: Atualiza os atributos de um livro.
+- `DELETE /api/v1/livros/{livro_id}`: Remove um livro do estoque.
+- `DELETE /api/v1/livros/`: Remove todos os livros adicionados do estoque e restaura o repositório para o estado inicial.
+
+---
+
+### Script de criação da base de dados e tabelas
+
+```sql
+
+DROP TABLE IF EXISTS "vendas";
+DROP TABLE IF EXISTS "livros";
+
+CREATE TABLE "livros" (
+    "id" SERIAL PRIMARY KEY,
+    "titulo" VARCHAR(255) NOT NULL,
+    "autor" VARCHAR(255) NOT NULL,
+    "quantidade" INTEGER NOT NULL,
+    "preco" FLOAT NOT NULL
+);
+
+CREATE TABLE "vendas" (
+    "id" SERIAL PRIMARY KEY,
+    "livro_id" INTEGER REFERENCES livros(id) ON DELETE CASCADE,
+    "quantidade_vendida" INTEGER NOT NULL,
+    "valor_venda" FLOAT NOT NULL,
+    "data_venda" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO "livros" ("titulo", "autor", "quantidade", "preco") VALUES ('O Senhor dos Anéis', 'J.R.R. Tolkien', 10, 50.00);
+INSERT INTO "livros" ("titulo", "autor", "quantidade", "preco") VALUES ('Harry Potter', 'J.K. Rowling', 20, 30.00);
+INSERT INTO "livros" ("titulo", "autor", "quantidade", "preco") VALUES ('1984', 'George Orwell', 15, 40.00)
+
+```
+Este script deve ser executado assim que a API subir pois ele cria as tabelas e preenche os dados iniciais. Para resetar a base de dados, basta executar a chamada `DELETE` na API no path `/api/v1/livros/`.
+
+### Estrutura da API com FastAPI
+
+#### Código da API
+
+```python
 from fastapi import FastAPI, HTTPException, Request
 from pydantic import BaseModel
 from typing import List, Optional
@@ -187,7 +256,7 @@ async def remover_livro(livro_id: int):
     finally:
         await conn.close()
 
-# 7. Resetar banco de dados de livros
+# 7. Resetar repositorio de livros
 @app.delete("/api/v1/livros/")
 async def resetar_livros():
     init_sql = os.getenv("INIT_SQL", "db/init.sql")
@@ -198,7 +267,7 @@ async def resetar_livros():
             sql_commands = file.read()
         # Execute SQL commands
         await conn.execute(sql_commands)
-        return {"message": "Banco de dados limpo com sucesso!"}
+        return {"message": "Banco de dados limpo com sucesso!!"}
     finally:
         await conn.close()
 
@@ -215,3 +284,136 @@ async def listar_vendas():
         return vendas
     finally:
         await conn.close()
+```
+
+---
+
+### Explicação das Funcionalidades:
+
+1. **Adicionar Livro**:
+   - O endpoint `POST /api/v1/livros/` adiciona um novo livro ao banco de dados.
+   - Verifica se o livro já existe no banco de dados comparando pelo `id` ou pelo `título`.
+
+2. **Listar Livros**:
+   - O endpoint `GET /api/v1/livros/` lista todos os livros presentes no banco de dados.
+
+3. **Listar Livro por ID**:
+   - O endpoint `GET /api/v1/livros/{livro_id}` permite buscar um livro específico pelo seu `ID`.
+
+4. **Vender Livro**:
+   - O endpoint `PUT /api/v1/livros/{livro_id}/vender/` permite vender uma quantidade de um livro.
+   - Verifica se a quantidade solicitada está disponível no estoque e atualiza a quantidade do livro.
+
+5. **Atualizar Livro**: 
+   - O endpoint `PATCH /api/v1/livros/{livro_id}` permite atualizar os atributos de um livro, exceto o `ID`.
+   - Atualiza apenas os campos fornecidos no corpo da requisição.
+
+6. **Remover Livro**: 
+   - O endpoint `DELETE /api/v1/livros/{livro_id}` permite remover um livro do banco de dados.
+
+7. **Resetar o banco de dados**:
+   - O endpoint `DELETE /api/v1/livros/` permite remover todos os livros do banco de dados, e restaurar o banco de dados para o estado inicial.
+
+8. **Listar Vendas**:
+   - O endpoint `GET /api/v1/vendas/` lista todas as vendas registradas no banco de dados.
+
+---
+
+### Como Executar a API no ambiente local:
+
+1. **Instalar as dependências**:
+   Certifique-se de que o FastAPI e o Uvicorn estão instalados:
+   ```bash
+   pip install fastapi uvicorn asyncpg
+   ```
+
+2. **Executar o servidor**:
+   Rode o servidor usando o Uvicorn:
+   ```bash
+   python -m uvicorn main:app --reload
+   ```
+
+3. **Testar os Endpoints**:
+   Acesse a documentação interativa do FastAPI:
+   ```
+   http://127.0.0.1:8000/docs
+   ```
+
+---
+
+### Executando o Backend com Docker Compose
+
+Para executar o backend com docker compose, crie um arquivo `docker-compose.yml` na raiz do repositório com o seguinte conteúdo:
+
+```yml
+services:
+
+  backend:
+    build: ./backend
+    restart: always
+    ports:
+      - "8000:8000"
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: livros
+```
+
+Execute o comando `docker-compose up --build` no terminal da raiz para iniciar o backend.
+
+- **docker compose up --build**: Executa o docker compose e inicia o backend na porta `8000`.
+
+
+### Testando a API com o Postman
+
+ - [Criando testes da API](postman/postman.md)
+
+---
+
+### Exercício Proposto:
+
+1. Atualizar sua API para usar o PostgreSQL como seu banco de dados.
+2. Executar a API usando docker-compose (**OBRIGATÓRIO**).
+3. Criar uma **collection** no Postman usando os testes de exemplo em [Criando teste de API](postman/postman.md)
+4. Subir a **collection** e os **resultados** na pasta `pratica-4b/api-tests`.
+5. Tirar prints dos resultados e subir na pasta `pratica-4b/img`.
+
+Prints:
+- Summary dos resultados do postman
+- Logs do container contendo as chamadas na API.
+
+### Observação Importante
+
+ - Sua API não pode ser genérica! Você precisa definir um produto (carro, bicicleta, etc)!
+    - Se realizar a entrega de uma API generica será descontado 10 pontos.
+ - Todo produto deve ter preço! Pois sem o preço não se calcula venda!
+    - Se realizar a entrega de um produto sem o valor, será descontado 10 pontos.
+ - Alem de preço e quantidade, cada produto deve ter pelo menos 2 atributos adicionais. (cor, ano, etc)
+    - Se realizar a entrega de um produto sem os atributos adicionais, será descontado 10 pontos.
+- Você pode usar livro como produto. Porém seu código não poderá ser igual ao meu!
+    - Se realizar a entrega do código muito semelhante ao meu, sua entrega será ZERADA!
+
+## ENTREGAR O PROJETO COM A MESMA ESTRUTURA!
+```sh
+ - aulas/
+    - pratica-x/ # o x é o número da prática
+       - api-tests/ # aqui vão os arquivos de testes do postman (collection e test run)
+          - C216-L1-PRATICA-x-Nome_Matricula.postman_collection.json
+          - C216-L1-PRATICA-x-Nome_Matricula.postman_test_run.json
+       - img/ # aqui vão os prints solicitados
+          - logs-api.png
+          - postman.png
+ - backend/ # o backend deve estar na raiz do repositório
+    - db/
+       - init.sql
+    - main.py
+    - Dockerfile
+docker-compose.yml
+```
+---
+[Voltar ao início](../../README.md)
