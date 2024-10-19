@@ -26,6 +26,7 @@
 - [Testes com Postman](./aulas/pratica-4b/postman/postman.md)
 
 ## [Prática-5](./aulas/pratica-5/) - Frontend com Flask
+- [Frontend Flask](./aulas/pratica-5/frontend-flask.md)
 
 ## [Prática-6](./aulas/pratica-6/) - Integração dos sistemas distribuidos utilizando containers e docker-compose
 

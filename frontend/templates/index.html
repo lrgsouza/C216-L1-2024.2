@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Inicial</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Bem-vindo ao Frontend com Flask</h1>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/about">Sobre</a>
+        </nav>
+    </header>
+    <section>
+        <h2>Introdução ao Flask</h2>
+        <p>Este é um exemplo básico de como utilizar o Flask para renderizar templates HTML.</p>
+        <p>Esta página foi criada por Lucas Garcia - GES134</p>
+    </section>
+</body>
+</html>
