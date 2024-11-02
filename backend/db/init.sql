@@ -12,6 +12,7 @@ CREATE TABLE "livros" (
 CREATE TABLE "vendas" (
     "id" SERIAL PRIMARY KEY,
     "livro_id" INTEGER REFERENCES livros(id) ON DELETE CASCADE,
+    "titulo" VARCHAR(255) NOT NULL,
     "quantidade_vendida" INTEGER NOT NULL,
     "valor_venda" FLOAT NOT NULL,
     "data_venda" TIMESTAMP DEFAULT CURRENT_TIMESTAMP

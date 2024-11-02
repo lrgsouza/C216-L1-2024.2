@@ -124,10 +124,10 @@ async def vender_livro(livro_id: int, venda: VendaLivro):
         valor_venda = livro['preco'] * venda.quantidade
         # Registrar a venda na tabela de vendas
         insert_venda_query = """
-            INSERT INTO vendas (livro_id, quantidade_vendida, valor_venda) 
-            VALUES ($1, $2, $3)
+            INSERT INTO vendas (livro_id, titulo, quantidade_vendida, valor_venda) 
+            VALUES ($1, $2, $3, $4)
         """
-        await conn.execute(insert_venda_query, livro_id, venda.quantidade, valor_venda)
+        await conn.execute(insert_venda_query, livro_id, livro['titulo'], venda.quantidade, valor_venda)
 
         # Criar um novo dicionário com os dados atualizados
         livro_atualizado = dict(livro)
