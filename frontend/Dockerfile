@@ -2,7 +2,7 @@
 FROM python:3.10-slim
 
 # Install any dependencies needed to run your Python code
-RUN pip install flask
+RUN pip install flask requests
 
 # Set the working directory to /app
 WORKDIR /app

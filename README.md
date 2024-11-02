@@ -29,6 +29,7 @@
 - [Frontend Flask](./aulas/pratica-5/frontend-flask.md)
 
 ## [Prática-6](./aulas/pratica-6/) - Integração dos sistemas distribuidos utilizando containers e docker-compose
+- [Integração](./aulas/pratica-6/integracao.md)
 
 ## Proposta do Projeto Final
 
