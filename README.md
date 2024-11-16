@@ -32,6 +32,7 @@
 
 ## Proposta do Projeto Final
 
+- [Proposta do Projeto Final](./aulas/projeto-final/projeto-final.md)
 
 ## Documentações adicionais
 
